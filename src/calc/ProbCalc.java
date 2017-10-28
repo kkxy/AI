@@ -12,11 +12,19 @@ public class ProbCalc {
 	
 	private Vector<CPT> pflist = new Vector<>();
 	private Map<String, Integer> map = new HashMap<>();
+	private Map<String, Integer> childmap = new HashMap<>();
 	
 	public ProbCalc() {
+		pflist.clear();
+		map.clear();
+		childmap.clear();
 	}
 	
 	public ProbCalc(FileData fd, Vector nodelist) {
+		pflist.clear();
+		map.clear();
+		childmap.clear();
+		
 		initMap(nodelist);
 		initPFTable(fd, nodelist);
 	}
@@ -45,13 +53,26 @@ public class ProbCalc {
 			InferenceGraphNode node = (InferenceGraphNode)nodelist.get(i);
 			CPT pf = new CPT(node);
 			pf.createProbTable(fd, map);
+			childmap.put(node.get_name(), i);
 			pflist.add(pf);
 		}
 	}
 	
 	public double getExpectation(Vector<String> values) {
-		double res = 0;
-		
+		double res = 1;
+		for (String key : map.keySet()) {
+			CPT pf = pflist.get(childmap.get(key));
+			String[] tempValue = new String[pf.getFatherSize() + 1];
+			Vector<InferenceGraphNode> fathers = pf.getFathers();
+			int pos = 0;
+			for (InferenceGraphNode ig : fathers) {
+				int index = map.get(ig.get_name());
+				tempValue[pos] = values.get(index);
+				pos = pos + 1;
+			}
+			tempValue[pos] = values.get(map.get(key));
+			res = res * pf.getProbility(tempValue);
+		}
 		return res;
 	}
 }

@@ -43,10 +43,14 @@ public class EM extends BaseAlgo {
 	@Override
 	public void checkData(FileData fd, Vector nodelist) {
 		// TODO Auto-generated method stub
+		// set initial values
 		prob = new ProbCalc(fd, nodelist);
+		FileData oldData = fd.getCopy();
+		fd = fd.fill(nodelist, prob);
+		// start iteration
 		while (!isOptimized(fd)) {
-			FileData newData = fd.fill(nodelist, prob);
-			
+			fd = fd.fill(nodelist, prob);
+			prob.reCalc(fd, nodelist);
 		}
 	}
 	

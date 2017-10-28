@@ -52,6 +52,18 @@ public class Row {
 		this.incomplete = incomplete;
 	}
 
+	public Row getCopy() {
+		Row res = new Row();
+		res.setLine(line);
+		res.setWeight(weight);
+		Vector<String> resData = new Vector<>();
+		for (String s : dataset) {
+			resData.add(s);
+		}
+		res.setDataset(resData);
+		return res;
+	}
+	
 	public int getSize() {
 		return dataset.size();
 	}

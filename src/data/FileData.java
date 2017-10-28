@@ -119,6 +119,18 @@ public class FileData {
 		rowDatas.add(row);
 		dataSize = dataSize + row.getWeight();
 	}
+
+	public FileData getCopy() {
+		FileData res = new FileData();
+		res.setDataSize(dataSize);
+		Vector<Row> resRows = new Vector<>();
+		for (Row r : rowDatas) {
+			Row newRow = r.getCopy();
+			resRows.add(newRow);
+		}
+		res.setRowDatas(resRows);
+		return res;
+	}
 	
 	public FileData filter(int var, String value) {
 		FileData fd = new FileData();

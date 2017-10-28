@@ -26,6 +26,50 @@ public class CPT {
         }
 		rows = 0;
 	}
+
+	public Vector<InferenceGraphNode> getFathers() {
+		return fathers;
+	}
+
+	public void setFathers(Vector<InferenceGraphNode> fathers) {
+		this.fathers = fathers;
+	}
+
+	public InferenceGraphNode getChild() {
+		return child;
+	}
+
+	public void setChild(InferenceGraphNode child) {
+		this.child = child;
+	}
+
+	public String[][] getDomains() {
+		return domains;
+	}
+
+	public void setDomains(String[][] domains) {
+		this.domains = domains;
+	}
+
+	public double[] getProb() {
+		return prob;
+	}
+
+	public void setProb(double[] prob) {
+		this.prob = prob;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getFatherSize() {
+		return fathers.size();
+	}
 	
 	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) {
 		if (c == fathers.size() + 1) {
