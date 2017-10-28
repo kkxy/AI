@@ -13,8 +13,8 @@ import calc.ProbCalc;
 
 public class FileData {
 
-	public Vector<Row> rowDatas = new Vector<>();
-	public double dataSize;
+	private Vector<Row> rowDatas = new Vector<>();
+	private double dataSize;
 	
 	public FileData() {
 		// TODO Auto-generated constructor stub

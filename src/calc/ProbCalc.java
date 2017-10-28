@@ -49,7 +49,7 @@ public class ProbCalc {
 		}
 	}
 	
-	public double getExpectation(String[] values) {
+	public double getExpectation(Vector<String> values) {
 		double res = 0;
 		
 		return res;
