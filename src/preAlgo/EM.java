@@ -1,44 +1,43 @@
 package preAlgo;
 
-import java.util.Scanner;
 import java.util.Vector;
 
 import calc.ProbCalc;
 import data.FileData;
 import data.Row;
-import util.TestUtil;
 
 public class EM extends BaseAlgo {
 	
-	private final int MAXITER = 10000;
+	private final int MAXITER = 10;
 	private final double EPS = 0.001;
-	private double exception[] = new double[100];
 	
 	private ProbCalc prob;
 	private int iteration;
+	private double exception;
 	
 	public EM() {
 		// TODO Auto-generated constructor stub
 		iteration = 0;
-		this.exception[0] = -5.0;
+		exception = -5.0;
 	}
 
 	private boolean isOptimized(FileData fd) {
 		iteration += 1;
-		exception[iteration] = 0.0;
+		double nowException = 0.0;
 		Vector<Row> rowdata = fd.getRowDatas();
-		if (Math.abs(exception[iteration] - exception[iteration - 1]) > EPS) {
-			for (int i = 0; i < rowdata.size(); i++) {
-				Row r = rowdata.get(i);
-				double w = r.getWeight();
-				double proba = prob.getExpectation(r.getDataset());
-				exception[iteration] += w * proba;
-			}
+		for (int i = 0; i < rowdata.size(); i++) {
+			Row r = rowdata.get(i);
+			double w = r.getWeight();
+			double proba = prob.getExpectation(r.getDataset());
+			nowException += w * proba;
+		}
+		if (Math.abs(nowException - exception) > EPS) {
 			if (iteration >= MAXITER) {
 				return true;
 			}
+			exception = nowException;
 			return false;
-		}	
+		}
 		return true;
 	}
 	
@@ -51,7 +50,7 @@ public class EM extends BaseAlgo {
 		fd = fd.fill(nodelist, prob);
 		// start iteration
 		while (!isOptimized(fd)) {
-			System.out.println("Iteration: " + iteration);
+			System.out.println("\nIteration: " + iteration);
 			fd = oldData.fill(nodelist, prob);
 			prob.reCalc(fd, nodelist);
 		}

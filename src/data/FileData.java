@@ -155,6 +155,7 @@ public class FileData {
 	}
 	
 	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
+		System.out.println("Fill data");
 		FileData fd = new FileData();
 		for (Row row : rowDatas) {
 			int qPos = row.getIncomplete(); 
