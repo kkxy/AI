@@ -97,7 +97,6 @@ public class CPT {
 		domains = new String[rows][fathers.size() + 1];
 		prob = new double[rows];
 		
-		rows = 0;
 		arrange(0, fd, 0.0, map);
 		
 		for (int i = 0; i < domains.length; i++) {
