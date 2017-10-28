@@ -20,6 +20,7 @@ public class Main {
 	public static InferenceGraph G;
 	public static BaseAlgo algo;
 	public static Vector nodelist;
+	public static final String[] algorithm = {"KNN", "EM"};
 	
 	/**
 	 * 初始化
@@ -66,22 +67,24 @@ public class Main {
 	
 	public static void output() {
 		ProbCalc bp = new ProbCalc(fd, nodelist);
-		
-		
+		bp.showProbility();
+		// write into file
 //			Vector<Double> plist = bsp.getProb();
 //			double[] values = new double[plist.size()];
 //			for (int k = 0; k < plist.size(); k++)
 //				values[k] = new BigDecimal(plist.get(k)).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 //			node.get_Prob().set_values(values);
 //			node.get_Prob().print();
-		bp.showProbility();
 		System.out.println("Output Succeed");
 	}
 	
 	public static void main(String[] args) {
-		init();
-		input();
-		pretreatment(fd, "EM");
-		output();
+		for (int i = 0; i < algorithm.length; i++) {
+			System.out.println("Now Using Algorithm: " + algorithm[i]);
+			init();
+			input();
+			pretreatment(fd, algorithm[i]);
+			output();
+		}
 	}
 }
