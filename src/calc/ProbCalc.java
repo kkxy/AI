@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import InferenceGraphs.InferenceGraphNode;
 import data.FileData;
+import util.TestUtil;
 import data.CPT;
 
 public class ProbCalc {
@@ -72,6 +73,13 @@ public class ProbCalc {
 			}
 			tempValue[pos] = values.get(map.get(pf.getChild().get_name()));
 			res = res * pf.getProbility(tempValue);
+			if (res == 0) {
+//				pf.show();
+//				for (String s : values)
+//					System.out.print(s + "%\t");
+//				System.out.println();
+//				TestUtil.testInput();
+			}
 		}
 		return res;
 	}

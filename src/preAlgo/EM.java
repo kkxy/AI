@@ -6,6 +6,7 @@ import java.util.Vector;
 import calc.ProbCalc;
 import data.FileData;
 import data.Row;
+import util.TestUtil;
 
 public class EM extends BaseAlgo {
 	
@@ -46,6 +47,8 @@ public class EM extends BaseAlgo {
 		// TODO Auto-generated method stub
 		// set initial values
 		prob = new ProbCalc(fd, nodelist);
+//		prob.showProbility();
+		TestUtil.testInput();
 		FileData oldData = fd.getCopy();
 		fd = fd.fill(nodelist, prob);
 		// start iteration
