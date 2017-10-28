@@ -135,22 +135,28 @@ public class FileData {
 	
 	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
 		FileData fd = new FileData();
-		double size = 0;
 		for (Row row : rowDatas) {
 			int qPos = row.getIncomplete(); 
 			if (qPos != -1) {
 				String[] domains = nodelist.get(qPos).get_values();
 				Vector<Row> rowlist = new Vector<>();
+				double sumWeight = 0;
 				for (int i = 0; i < domains.length; i++) {
 					String value = domains[i];
 					Row newRow = row;
 					newRow.replaceIncompleteData(value);
-					double weight = prob.getExpectation();
-					newRow.setWeight();
+					double weight = prob.getExpectation(newRow.getDataset());
+					sumWeight = sumWeight + weight;
+					newRow.setWeight(weight);
+					rowlist.add(newRow);
+				}
+				for (int i = 0; i < rowlist.size(); i++) {
+					Row newRow = rowlist.get(i);
+					newRow.setWeight(newRow.getWeight() / sumWeight);
+					fd.addRowData(newRow);
 				}
 			}
 			else {
-				size = size + row.getWeight();
 				fd.addRowData(row);
 			}
 		}
