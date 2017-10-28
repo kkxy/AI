@@ -8,8 +8,8 @@ import data.Row;
 
 public class EM extends BaseAlgo {
 	
-	private final int MAXITER = 10;
-	private final double EPS = 0.001;
+	private final int MAXITER = 10000;
+	private final double EPS = 0.00001;
 	
 	private ProbCalc prob;
 	private int iteration;
