@@ -80,7 +80,7 @@ public class Main {
 	public static void main(String[] args) {
 		init();
 		input();
-		pretreatment(fd, "KNN");
+		pretreatment(fd, "EM");
 		output();
 	}
 }

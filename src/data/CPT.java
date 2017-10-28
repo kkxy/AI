@@ -99,6 +99,13 @@ public class CPT {
 		
 		rows = 0;
 		arrange(0, fd, 0.0, map);
+		
+		for (int i = 0; i < domains.length; i++) {
+			for (int j = 0; j < domains[i].length; j++) {
+				System.out.print(domains[i][j] + "\t");
+			}
+			System.out.println();
+		}
 	}
 	
 	public double getProbility(String[] values) {
@@ -119,4 +126,17 @@ public class CPT {
 		return res;
 	}
 	
+	public void show() {
+		System.out.print(child.get_name() + "\t");
+		for (InferenceGraphNode ig : fathers) {
+			System.out.print(ig.get_name() + "\t");
+		}
+		System.out.println();
+		for (int i = 0; i < domains.length; i++) {
+			for (int j = 0; j < domains[i].length; j++) {
+				System.out.print(domains[i][j] + "\t");
+			}
+			System.out.println(prob[i]);
+		}
+	}
 }

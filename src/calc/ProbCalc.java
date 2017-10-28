@@ -12,18 +12,15 @@ public class ProbCalc {
 	
 	private Vector<CPT> pflist = new Vector<>();
 	private Map<String, Integer> map = new HashMap<>();
-	private Map<String, Integer> childmap = new HashMap<>();
 	
 	public ProbCalc() {
 		pflist.clear();
 		map.clear();
-		childmap.clear();
 	}
 	
 	public ProbCalc(FileData fd, Vector nodelist) {
 		pflist.clear();
 		map.clear();
-		childmap.clear();
 		
 		initMap(nodelist);
 		initPFTable(fd, nodelist);
@@ -36,6 +33,7 @@ public class ProbCalc {
 	
 	private void initMap(Vector nodelist) {
 		// 初始化Map
+		System.out.println("init Map");
 		for (int i = 0; i < nodelist.size(); i++) {
 			InferenceGraphNode node = (InferenceGraphNode)nodelist.get(i);
 			int length = node.get_Prob().get_variables().length;
@@ -49,19 +47,19 @@ public class ProbCalc {
 	
 	private void initPFTable(FileData fd, Vector nodelist) {
 		// 初始化PF表
+		System.out.println("init PF Table");
 		for (int i = 0; i < nodelist.size(); i++) {
 			InferenceGraphNode node = (InferenceGraphNode)nodelist.get(i);
 			CPT pf = new CPT(node);
 			pf.createProbTable(fd, map);
-			childmap.put(node.get_name(), i);
 			pflist.add(pf);
 		}
 	}
 	
 	public double getExpectation(Vector<String> values) {
 		double res = 1;
-		for (String key : map.keySet()) {
-			CPT pf = pflist.get(childmap.get(key));
+		for (CPT pf : pflist) {
+			System.out.println(pf.getChild().get_name() + " " + pf.getFatherSize());
 			String[] tempValue = new String[pf.getFatherSize() + 1];
 			Vector<InferenceGraphNode> fathers = pf.getFathers();
 			int pos = 0;
@@ -70,9 +68,15 @@ public class ProbCalc {
 				tempValue[pos] = values.get(index);
 				pos = pos + 1;
 			}
-			tempValue[pos] = values.get(map.get(key));
+			tempValue[pos] = values.get(map.get(pf.getChild().get_name()));
 			res = res * pf.getProbility(tempValue);
 		}
 		return res;
+	}
+	
+	public void showProbility() {
+		for (CPT pf : pflist) {
+			pf.show();
+		}
 	}
 }
