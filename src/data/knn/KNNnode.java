@@ -1,4 +1,4 @@
-package preAlgo.knn;
+package data.knn;
 
 public class KNNnode {
 int id;
