@@ -25,21 +25,23 @@ public class Main {
 	/**
 	 * 初始化
 	 */
-	public static void init() {
+	public static void init(long starttime) {
 		fd = new FileData();
 		bsp = new ProbCalc();
 		System.out.println("Init Succeed");
+		System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
 	}
 	
 	/**
 	 * 输入
 	 */
-	public static void input() {
+	public static void input(long starttime) {
 		try {
 			G = new InferenceGraph("data/alarm.bif");
 			nodelist = G.get_nodes();
 			fd.readRowDatas("data/records.dat");
 			System.out.println("Input Succeed");
+			System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (IFException e) {
@@ -51,11 +53,12 @@ public class Main {
 	 * 依据传入的算法来选择不同的预处理
 	 * @param algorithm
 	 */
-	public static void pretreatment(FileData fd, String algorithm) {
+	public static void pretreatment(FileData fd, String algorithm, long starttime) {
 		try {
 			algo = (BaseAlgo)Class.forName("preAlgo." + algorithm).newInstance();
 			algo.checkData(fd, nodelist);
 			System.out.println("Pretreat Succeed");
+			System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -65,9 +68,9 @@ public class Main {
 		}
 	}
 	
-	public static void output() {
+	public static void output(long starttime) {
 		ProbCalc bp = new ProbCalc(fd, nodelist);
-		bp.showProbility();
+//		bp.showProbility();
 		// write into file
 //			Vector<Double> plist = bsp.getProb();
 //			double[] values = new double[plist.size()];
@@ -75,16 +78,18 @@ public class Main {
 //				values[k] = new BigDecimal(plist.get(k)).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 //			node.get_Prob().set_values(values);
 //			node.get_Prob().print();
-		System.out.println("Output Succeed");
+		System.out.println("Calculate Succeed");
+		System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
 	}
 	
 	public static void main(String[] args) {
 		for (int i = 0; i < algorithm.length; i++) {
-			System.out.println("Now Using Algorithm: " + algorithm[i]);
-			init();
-			input();
-			pretreatment(fd, algorithm[i]);
-			output();
+			long starttime = System.currentTimeMillis();
+			System.out.println("\nUsing Algorithm: " + algorithm[i]);
+			init(starttime);
+			input(starttime);
+			pretreatment(fd, algorithm[i], starttime);
+			output(starttime);
 		}
 	}
 }

@@ -147,7 +147,7 @@ public class CPT {
 			for (int j = 0; j < domains[i].length; j++) {
 				System.out.print(domains[i][j] + "#\t");
 			}
-			System.out.println(new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
+			System.out.println(new BigDecimal(prob[i]).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue());
 		}
 	}
 }
