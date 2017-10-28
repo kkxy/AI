@@ -74,7 +74,6 @@ public class CPT {
 	
 	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) {
 		if (c == fathers.size() + 1) {
-//			System.out.println("arrange:" + fd.getDataSize() + " " + lastCount);
 			if (lastCount == 0)
 				prob[rows] = 0;
 			else
@@ -111,7 +110,6 @@ public class CPT {
 		
 		rows = 0;
 		arrange(0, cleanedData, 0, map);
-//		System.out.println();
 		
 		for (int i = 1; i < domains.length; i++) {
 			for (int j = 0; j < domains[i].length; j++) {
@@ -119,7 +117,6 @@ public class CPT {
 					domains[i][j] = domains[i - 1][j];
 			}
 		}
-//		show();
 	}
 	
 	public double getProbility(String[] values) {

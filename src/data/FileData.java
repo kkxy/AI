@@ -175,7 +175,7 @@ public class FileData {
 					Row newRow = rowlist.get(i);
 					if (sumWeight != 0)
 						newRow.setWeight(newRow.getWeight() / sumWeight);
-					else
+					else 
 						newRow.setWeight(0);
 					fd.addRowData(newRow);
 				}

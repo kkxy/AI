@@ -27,18 +27,18 @@ public class EM extends BaseAlgo {
 		iteration += 1;
 		exception[iteration] = 0.0;
 		Vector<Row> rowdata = fd.getRowDatas();
-		if (exception[iteration] - exception[iteration - 1] > EPS) {
+		if (Math.abs(exception[iteration] - exception[iteration - 1]) > EPS) {
 			for (int i = 0; i < rowdata.size(); i++) {
 				Row r = rowdata.get(i);
 				double w = r.getWeight();
 				double proba = prob.getExpectation(r.getDataset());
 				exception[iteration] += w * proba;
 			}
-			return true;
-		}
-		else if (iteration < MAXITER) {
+			if (iteration >= MAXITER) {
+				return true;
+			}
 			return false;
-		}
+		}	
 		return true;
 	}
 	
@@ -47,8 +47,6 @@ public class EM extends BaseAlgo {
 		// TODO Auto-generated method stub
 		// set initial values
 		prob = new ProbCalc(fd, nodelist);
-//		prob.showProbility();
-		TestUtil.testInput();
 		FileData oldData = fd.getCopy();
 		fd = fd.fill(nodelist, prob);
 		// start iteration
