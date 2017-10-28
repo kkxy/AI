@@ -30,7 +30,7 @@ public class EM extends BaseAlgo {
 			for (int i = 0; i < rowdata.size(); i++) {
 				Row r = rowdata.get(i);
 				double w = r.getWeight();
-				double proba = prob.getExpectation(r.getData());
+				double proba = prob.getExpectation(r.getDataset());
 				exception[liter] += w * proba;
 			}
 			liter += 1;
@@ -45,7 +45,7 @@ public class EM extends BaseAlgo {
 		// TODO Auto-generated method stub
 		prob = new ProbCalc(fd, nodelist);
 		while (!isOptimized(fd)) {
-			FileData newData = fd.fill(prob);
+			FileData newData = fd.fill(nodelist, prob);
 			
 		}
 	}

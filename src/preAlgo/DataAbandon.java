@@ -2,7 +2,7 @@ package preAlgo;
 
 import data.FileData;
 
-public class DataAbandon extends BaseAlgo {
+public class DataAbandon {
 
 	public DataAbandon() {
 		// TODO Auto-generated constructor stub
