@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,15 +26,16 @@ public class FileData {
 	
 	public FileData(String[][] data) {
 		rowDatas.clear();
+		dataSize = 0;
 		for (int i = 0; i < data.length; i++) {
 			Row row = new Row();
 			row.setLine(i);
 			for (int j = 0; j < data[i].length; j++) {
 				row.addData(data[i][j]);
 			}
+			dataSize = dataSize + row.getWeight();
 			rowDatas.add(row);
 		}
-		dataSize = data.length; 
 	}
 
 	public void resetData(String[][] data) {
@@ -99,8 +102,7 @@ public class FileData {
 				String[] t = parseString(lineString);
 				Row row = new Row();
 				row.setData(line, t);
-				row.setWeight(1);
-				dataSize = dataSize + 1;
+				dataSize = dataSize + row.getWeight();
 				rowDatas.add(row);	
 			}
 		} catch(IOException e) {
@@ -116,7 +118,7 @@ public class FileData {
 	}
 	
 	public void addRowData(Row row) {
-		rowDatas.add(row);
+		rowDatas.add(row.getCopy());
 		dataSize = dataSize + row.getWeight();
 	}
 
@@ -134,15 +136,22 @@ public class FileData {
 	
 	public FileData filter(int var, String value) {
 		FileData fd = new FileData();
-		double size = 0;
 		for (Row row : rowDatas) {
 			if (row.match(var, value)) {
 				fd.addRowData(row);
-				size = size + row.getWeight();
 			}
 		}
-		fd.setDataSize(size);
 		return fd;
+	}
+	
+	public FileData cleanAbsent(int[] index) {
+		FileData res = new FileData();
+		for (Row row : rowDatas) {
+			if (row.check(index)) {
+				res.addRowData(row);
+			}
+		}
+		return res;
 	}
 	
 	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
@@ -155,7 +164,7 @@ public class FileData {
 				double sumWeight = 0;
 				for (int i = 0; i < domains.length; i++) {
 					String value = domains[i];
-					Row newRow = row;
+					Row newRow = row.getCopy();
 					newRow.replaceIncompleteData(value);
 					double weight = prob.getExpectation(newRow.getDataset());
 					sumWeight = sumWeight + weight;
@@ -164,7 +173,10 @@ public class FileData {
 				}
 				for (int i = 0; i < rowlist.size(); i++) {
 					Row newRow = rowlist.get(i);
-					newRow.setWeight(newRow.getWeight() / sumWeight);
+					if (sumWeight != 0)
+						newRow.setWeight(newRow.getWeight() / sumWeight);
+					else
+						newRow.setWeight(0);
 					fd.addRowData(newRow);
 				}
 			}

@@ -1,5 +1,6 @@
 package preAlgo;
 
+import java.util.Scanner;
 import java.util.Vector;
 
 import calc.ProbCalc;
@@ -9,7 +10,7 @@ import data.Row;
 public class EM extends BaseAlgo {
 	
 	private final int MAXITER = 10000;
-	private final double EPS = 0.001;
+	private final double EPS = 0.01;
 	
 	private ProbCalc prob;
 	private int iteration;
@@ -35,7 +36,7 @@ public class EM extends BaseAlgo {
 			}
 			liter += 1;
 		}
-		if (iteration >= MAXITER)
+		if (iteration >= MAXITER) 
 			return false;
 		return true;
 	}

@@ -72,6 +72,15 @@ public class Row {
 		return dataset.get(loc).equals(value);
 	}
 	
+	public boolean check(int[] index) {
+		for (int i = 0; i < index.length; i++) {
+			int j = index[i];
+			if (dataset.get(j).equals("?"))
+				return false;
+		}
+		return true;
+	}
+	
 	public void setData(int l, String[] values) {
 		line = l;
 		for (int i = 0; i < values.length; i++) {

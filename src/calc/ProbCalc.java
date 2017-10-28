@@ -27,6 +27,9 @@ public class ProbCalc {
 	}
 	
 	public void reCalc(FileData fd, Vector nodelist) {
+		pflist.clear();
+		map.clear();
+		
 		initMap(nodelist);
 		initPFTable(fd, nodelist);
 	}
@@ -59,7 +62,6 @@ public class ProbCalc {
 	public double getExpectation(Vector<String> values) {
 		double res = 1;
 		for (CPT pf : pflist) {
-			System.out.println(pf.getChild().get_name() + " " + pf.getFatherSize());
 			String[] tempValue = new String[pf.getFatherSize() + 1];
 			Vector<InferenceGraphNode> fathers = pf.getFathers();
 			int pos = 0;
@@ -77,6 +79,7 @@ public class ProbCalc {
 	public void showProbility() {
 		for (CPT pf : pflist) {
 			pf.show();
+			System.out.println();
 		}
 	}
 }

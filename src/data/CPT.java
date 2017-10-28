@@ -1,5 +1,6 @@
 package data;
 
+import java.math.BigDecimal;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
@@ -73,7 +74,11 @@ public class CPT {
 	
 	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) {
 		if (c == fathers.size() + 1) {
-			prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
+//			System.out.println("arrange:" + fd.getDataSize() + " " + lastCount);
+			if (lastCount == 0)
+				prob[rows] = 0;
+			else
+				prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
 			rows = rows + 1;
 			return ;
 		}
@@ -84,7 +89,7 @@ public class CPT {
 			domains[rows][c] = value;
 			int index = map.get(nowNode.get_name());
 			FileData newData = fd.filter(index, value);
-			arrange(c + 1, newData, lastCount + newData.getDataSize(), map);
+			arrange(c + 1, newData, fd.getDataSize(), map);
 		}
 		
 	}
@@ -97,14 +102,24 @@ public class CPT {
 		domains = new String[rows][fathers.size() + 1];
 		prob = new double[rows];
 		
-		arrange(0, fd, 0.0, map);
-		
-		for (int i = 0; i < domains.length; i++) {
-			for (int j = 0; j < domains[i].length; j++) {
-				System.out.print(domains[i][j] + "\t");
-			}
-			System.out.println();
+		int[] index = new int[fathers.size() + 1];
+		for (int i = 0; i < fathers.size(); i++) {
+			index[i] = map.get(fathers.get(i).get_name());
 		}
+		index[fathers.size()] = map.get(child.get_name());
+		FileData cleanedData = fd.cleanAbsent(index);
+		
+		rows = 0;
+		arrange(0, cleanedData, 0, map);
+//		System.out.println();
+		
+		for (int i = 1; i < domains.length; i++) {
+			for (int j = 0; j < domains[i].length; j++) {
+				if (domains[i][j] == null)
+					domains[i][j] = domains[i - 1][j];
+			}
+		}
+//		show();
 	}
 	
 	public double getProbility(String[] values) {
@@ -126,16 +141,16 @@ public class CPT {
 	}
 	
 	public void show() {
-		System.out.print(child.get_name() + "\t");
+		System.out.print(child.get_name() + "@\t");
 		for (InferenceGraphNode ig : fathers) {
-			System.out.print(ig.get_name() + "\t");
+			System.out.print(ig.get_name() + "@\t");
 		}
 		System.out.println();
 		for (int i = 0; i < domains.length; i++) {
 			for (int j = 0; j < domains[i].length; j++) {
-				System.out.print(domains[i][j] + "\t");
+				System.out.print(domains[i][j] + "#\t");
 			}
-			System.out.println(prob[i]);
+			System.out.println(new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
 		}
 	}
 }

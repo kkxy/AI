@@ -74,6 +74,7 @@ public class Main {
 //				values[k] = new BigDecimal(plist.get(k)).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 //			node.get_Prob().set_values(values);
 //			node.get_Prob().print();
+//		bp.showProbility();
 		System.out.println("Output Succeed");
 	}
 	
