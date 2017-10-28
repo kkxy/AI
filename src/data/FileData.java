@@ -4,16 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import InferenceGraphs.InferenceGraph;
 import InferenceGraphs.InferenceGraphNode;
-import InterchangeFormat.IFException;
 import calc.ProbCalc;
 
 public class FileData {
@@ -138,11 +133,26 @@ public class FileData {
 		return fd;
 	}
 	
-	public FileData fill(ProbCalc prob) {
+	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
 		FileData fd = new FileData();
 		double size = 0;
 		for (Row row : rowDatas) {
-			
+			int qPos = row.getIncomplete(); 
+			if (qPos != -1) {
+				String[] domains = nodelist.get(qPos).get_values();
+				Vector<Row> rowlist = new Vector<>();
+				for (int i = 0; i < domains.length; i++) {
+					String value = domains[i];
+					Row newRow = row;
+					newRow.replaceIncompleteData(value);
+					double weight = prob.getExpectation();
+					newRow.setWeight();
+				}
+			}
+			else {
+				size = size + row.getWeight();
+				fd.addRowData(row);
+			}
 		}
 		return fd;
 	}

@@ -51,6 +51,7 @@ public class ProbCalc {
 	
 	public double getExpectation(String[] values) {
 		double res = 0;
+		
 		return res;
 	}
 }
