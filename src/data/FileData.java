@@ -174,10 +174,7 @@ public class FileData {
 				}
 				for (int i = 0; i < rowlist.size(); i++) {
 					Row newRow = rowlist.get(i);
-					if (sumWeight != 0)
-						newRow.setWeight(newRow.getWeight() / sumWeight);
-					else 
-						newRow.setWeight(0);
+					newRow.setWeight(newRow.getWeight() / sumWeight);
 					fd.addRowData(newRow);
 				}
 			}
