@@ -18,6 +18,8 @@ public class Main {
 	public static FileData fd;
 	public static ProbCalc bsp;
 	public static InferenceGraph G;
+	public static BaseAlgo algo;
+	public static Vector nodelist;
 	
 	/**
 	 * 初始化
@@ -34,6 +36,7 @@ public class Main {
 	public static void input() {
 		try {
 			G = new InferenceGraph("data/alarm.bif");
+			nodelist = G.get_nodes();
 			fd.readRowDatas("data/records.dat");
 			System.out.println("Input Succeed");
 		} catch (IOException e) {
@@ -49,8 +52,8 @@ public class Main {
 	 */
 	public static void pretreatment(FileData fd, String algorithm) {
 		try {
-			BaseAlgo algo = (BaseAlgo)Class.forName("preAlgo." + algorithm).newInstance();
-			algo.checkData(fd);
+			algo = (BaseAlgo)Class.forName("preAlgo." + algorithm).newInstance();
+			algo.checkData(fd, nodelist);
 			System.out.println("Pretreat Succeed");
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -62,7 +65,6 @@ public class Main {
 	}
 	
 	public static void output() {
-		Vector nodelist = G.get_nodes();
 		ProbCalc bp = new ProbCalc(fd, nodelist);
 		
 		

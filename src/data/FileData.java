@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import InferenceGraphs.InferenceGraph;
 import InferenceGraphs.InferenceGraphNode;
 import InterchangeFormat.IFException;
+import calc.ProbCalc;
 
 public class FileData {
 
@@ -134,6 +135,15 @@ public class FileData {
 			}
 		}
 		fd.setDataSize(size);
+		return fd;
+	}
+	
+	public FileData fill(ProbCalc prob) {
+		FileData fd = new FileData();
+		double size = 0;
+		for (Row row : rowDatas) {
+			
+		}
 		return fd;
 	}
 	

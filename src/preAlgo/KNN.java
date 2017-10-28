@@ -133,7 +133,8 @@ public class KNN extends BaseAlgo {
 		
 	}
 	
-	public void checkData(FileData fd) {
+	@Override
+	public void checkData(FileData fd, Vector nodelist) {
 		String[][] filedatas = fd.toStringArray();
 		try {
 			fd.resetData(useknn(filedatas));
@@ -143,23 +144,5 @@ public class KNN extends BaseAlgo {
 			e.printStackTrace();
 		}
 	}
-	 
-//	public static void main(String[] args) throws Exception {
-//		ReadFile readf= new ReadFile();
-//		String[][] var=new String[11100][37];
-//		String[][] resultvar=new String[11100][37];
-//		var=readf.ReadData("./data/records.dat");
-//		resultvar=readf.ReadData("./data/records.dat");
-//		for(int i=0;i<10;i++) {
-//			for(int j=0;j<37;j++) {System.out.print(var[i][j]+"  ");}
-//			System.out.println();
-//		}
-//		resultvar=useknn(var,resultvar,9);
-//		
-//			System.out.println(resultvar[1][2]);
-//		
-//		// TODO Auto-generated method stub
-//
-//	}
 
 }
