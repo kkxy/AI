@@ -10,7 +10,8 @@ import data.Row;
 public class EM extends BaseAlgo {
 	
 	private final int MAXITER = 10000;
-	private final double EPS = 0.01;
+	private final double EPS = 0.001;
+	private double exception[] = new double[100];
 	
 	private ProbCalc prob;
 	private int iteration;
@@ -18,26 +19,25 @@ public class EM extends BaseAlgo {
 	public EM() {
 		// TODO Auto-generated constructor stub
 		iteration = 0;
+		this.exception[0] = -5.0;
 	}
 
 	private boolean isOptimized(FileData fd) {
+		iteration += 1;
+		exception[iteration] = 0.0;
 		Vector<Row> rowdata = fd.getRowDatas();
-		double exception[] = new double[100];
-		exception[0] = -5;
-		exception[1] = 0.0;
-		double threhold = 0.001;
-		int liter = 1;
-		while(exception[liter] - exception[liter - 1] > threhold) {
+		if (exception[iteration] - exception[iteration - 1] > EPS) {
 			for (int i = 0; i < rowdata.size(); i++) {
 				Row r = rowdata.get(i);
 				double w = r.getWeight();
 				double proba = prob.getExpectation(r.getDataset());
-				exception[liter] += w * proba;
+				exception[iteration] += w * proba;
 			}
-			liter += 1;
+			return true;
 		}
-		if (iteration >= MAXITER) 
+		else if (iteration < MAXITER) {
 			return false;
+		}
 		return true;
 	}
 	
@@ -50,7 +50,8 @@ public class EM extends BaseAlgo {
 		fd = fd.fill(nodelist, prob);
 		// start iteration
 		while (!isOptimized(fd)) {
-			fd = fd.fill(nodelist, prob);
+			System.out.println("Iteration: " + iteration);
+			fd = oldData.fill(nodelist, prob);
 			prob.reCalc(fd, nodelist);
 		}
 	}
