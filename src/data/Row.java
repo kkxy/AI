@@ -4,10 +4,11 @@ import java.util.Vector;
 
 public class Row {
 
-	private int line;
-	private Vector<String> dataset = new Vector<>();
-	private double weight;
-	private int incomplete;
+	private int line; 									//the line of this row data
+	private Vector<String> dataset = new Vector<>(); 		//the date of this row
+	private double weight;								// data weight
+	private int incomplete; 								// the ? data in which column
+	
 	
 	public Row() {
 		// TODO Auto-generated constructor stub
@@ -51,7 +52,8 @@ public class Row {
 	public void setIncomplete(int incomplete) {
 		this.incomplete = incomplete;
 	}
-
+	
+	
 	public Row getCopy() {
 		Row res = new Row();
 		res.setLine(line);

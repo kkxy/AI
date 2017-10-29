@@ -70,7 +70,7 @@ public class Main {
 	
 	public static void output(long starttime) {
 		ProbCalc bp = new ProbCalc(fd, nodelist);
-//		bp.showProbility();
+		bp.showProbility();
 		// write into file
 //			Vector<Double> plist = bsp.getProb();
 //			double[] values = new double[plist.size()];
