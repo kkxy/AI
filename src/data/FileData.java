@@ -14,7 +14,7 @@ import InferenceGraphs.InferenceGraphNode;
 import calc.ProbCalc;
 
 public class FileData {
-
+	// all data
 	private Vector<Row> rowDatas = new Vector<>();
 	private double dataSize;
 	
