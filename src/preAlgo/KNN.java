@@ -4,8 +4,8 @@ import InferenceGraphs.*;
 import InterchangeFormat.*;
 import data.FileData;
 import data.Row;
-import preAlgo.knn.KNNnode;
-import preAlgo.knn.NodeValue;
+import data.knn.KNNnode;
+import data.knn.NodeValue;
 
 import java.io.*;
 import java.util.Vector;

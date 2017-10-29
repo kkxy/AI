@@ -25,40 +25,50 @@ public class Main {
 	/**
 	 * 初始化
 	 */
-	public static void init(long starttime) {
+	public static long init() {
+		long starttime = System.currentTimeMillis();
 		fd = new FileData();
 		bsp = new ProbCalc();
 		System.out.println("Init Succeed");
-		System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
+		long cost = System.currentTimeMillis() - starttime;
+		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
+		return cost;
 	}
 	
 	/**
 	 * 输入
 	 */
-	public static void input(long starttime) {
+	public static long input() {
+		long starttime = System.currentTimeMillis();
 		try {
 			G = new InferenceGraph("data/alarm.bif");
 			nodelist = G.get_nodes();
 			fd.readRowDatas("data/records.dat");
 			System.out.println("Input Succeed");
-			System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
+			long cost = System.currentTimeMillis() - starttime;
+			System.out.println("Time Cost:" + (cost / 1000.0) + "s");
+			return cost;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (IFException e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}
 	
 	/**
 	 * 依据传入的算法来选择不同的预处理
 	 * @param algorithm
 	 */
-	public static void pretreatment(FileData fd, String algorithm, long starttime) {
+	public static long pretreatment(FileData fd, String algorithm) {
+		long starttime = System.currentTimeMillis();
 		try {
 			algo = (BaseAlgo)Class.forName("preAlgo." + algorithm).newInstance();
 			algo.checkData(fd, nodelist);
 			System.out.println("Pretreat Succeed");
-			System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
+			long cost = System.currentTimeMillis() - starttime;
+			System.out.println("Time Cost:" + (cost / 1000.0) + "s");
+			return cost;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -66,9 +76,11 @@ public class Main {
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}
 	
-	public static void output(long starttime) {
+	public static long output() {
+		long starttime = System.currentTimeMillis();
 		ProbCalc bp = new ProbCalc(fd, nodelist);
 		bp.showProbility();
 		// write into file
@@ -79,17 +91,20 @@ public class Main {
 //			node.get_Prob().set_values(values);
 //			node.get_Prob().print();
 		System.out.println("Calculate Succeed");
-		System.out.println("Time Cost:" + (System.currentTimeMillis() - starttime) / (1000.0) + "s");
+		long cost = System.currentTimeMillis() - starttime;
+		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
+		return cost;
 	}
 	
 	public static void main(String[] args) {
 		for (int i = 0; i < algorithm.length; i++) {
-			long starttime = System.currentTimeMillis();
 			System.out.println("\nUsing Algorithm: " + algorithm[i]);
-			init(starttime);
-			input(starttime);
-			pretreatment(fd, algorithm[i], starttime);
-			output(starttime);
+			long total = 0;
+			total += init();
+			total += input();
+			total += pretreatment(fd, algorithm[i]);
+			total += output();
+			System.out.println("Total Time Cost: " + (total / 1000.0) + "s" );
 		}
 	}
 }
