@@ -15,7 +15,7 @@ import calc.ProbCalc;
 import exception.DivZeroException;
 
 public class FileData {
-
+	// all data
 	private Vector<Row> rowDatas = new Vector<>();
 	private double dataSize;
 	
