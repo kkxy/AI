@@ -177,7 +177,6 @@ public class FileData {
 	 * @return
 	 */
 	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) throws DivZeroException {
-		System.out.println("Fill data");
 		FileData fd = new FileData();
 		for (Row row : rowDatas) {
 			int qPos = row.getIncomplete(); 

@@ -18,10 +18,12 @@ import calc.ProbCalc;
 import data.FileData;
 import data.CPT;
 import preAlgo.BaseAlgo;
+import util.TestUtil;
 
 public class Main {
 	public static FileData fd;
 	public static InferenceGraph G;
+	public static ProbCalc prob;
 	public static BaseAlgo algo;
 	public static Vector nodelist;
 	public static final String[] algorithm = {"KNN", "EM"};
@@ -32,6 +34,7 @@ public class Main {
 	public static long init() {
 		long starttime = System.currentTimeMillis();
 		fd = new FileData();
+		prob = new ProbCalc();
 		System.out.println("Init Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
@@ -67,7 +70,7 @@ public class Main {
 		long starttime = System.currentTimeMillis();
 		try {
 			algo = (BaseAlgo)Class.forName("preAlgo." + algorithm).newInstance();
-			algo.checkData(fd, nodelist);
+			algo.checkData(fd, nodelist, prob);
 			System.out.println("Pretreat Succeed");
 			long cost = System.currentTimeMillis() - starttime;
 			System.out.println("Time Cost:" + (cost / 1000.0) + "s");
@@ -84,8 +87,8 @@ public class Main {
 	
 	public static long calculate() {
 		long starttime = System.currentTimeMillis();
-		ProbCalc bp = new ProbCalc(fd, nodelist);
-		bp.showProbility();
+		prob.reCalc(fd, nodelist);
+//		prob.showProbility();
 		System.out.println("Calculate Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
@@ -98,7 +101,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		for (int i = 1; i < algorithm.length; i++) {
+		for (int i = 0; i < algorithm.length; i++) {
 			System.out.println("\nUsing Algorithm: " + algorithm[i]);
 			long total = 0;
 			total += init();
@@ -106,6 +109,7 @@ public class Main {
 			total += pretreatment(fd, algorithm[i]);
 			total += calculate();
 			System.out.println("Total Time Cost: " + (total / 1000.0) + "s" );
+			TestUtil.compareInferenceGraph("./data/alarm.bif", "./data/former_alarm.bif");
 		}
 	}
 }

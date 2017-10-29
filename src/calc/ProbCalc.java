@@ -20,7 +20,7 @@ public class ProbCalc {
 		map.clear();
 	}
 	
-	public ProbCalc(FileData fd, Vector nodelist) {
+	public void init(FileData fd, Vector nodelist) {
 		cptlist.clear();
 		map.clear();
 		
@@ -29,11 +29,8 @@ public class ProbCalc {
 	}
 	
 	public void reCalc(FileData fd, Vector nodelist) {
-		cptlist.clear();
-		map.clear();
-		
-		initMap(nodelist);
-		initCPT(fd, nodelist);
+		for (int i = 0; i < cptlist.size(); i++)
+			cptlist.get(i).reCalcCPT(fd, map);
 	}
 	
 	/**

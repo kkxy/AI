@@ -14,7 +14,6 @@ public class EM implements BaseAlgo {
 	private final int MAXITER = 10000;
 	private final double EPS = 0.00001;
 	
-	private ProbCalc prob;
 	private int iteration;
 	private double exception;
 	
@@ -29,7 +28,7 @@ public class EM implements BaseAlgo {
 	 * @param fd
 	 * @return
 	 */
-	private boolean isOptimized(FileData fd) {
+	private boolean isOptimized(FileData fd, ProbCalc prob) {
 		iteration += 1;
 		double nowException = 0.0;
 		Vector<Row> rowdata = fd.getRowDatas();
@@ -53,15 +52,15 @@ public class EM implements BaseAlgo {
 	/**
 	 * core part of a algorithm
 	 */
-	public void checkData(FileData fd, Vector nodelist) {
+	public void checkData(FileData fd, Vector nodelist, ProbCalc prob) {
 		// TODO Auto-generated method stub
 		try {
 			// set initial values
-			prob = new ProbCalc(fd, nodelist);
+			prob.init(fd, nodelist);
 			FileData oldData = fd.getCopy();
 			fd = fd.fill(nodelist, prob);
 			// start iteration
-			while (!isOptimized(fd)) {
+			while (!isOptimized(fd, prob)) {
 				System.out.println("\nIteration: " + iteration);
 				fd = oldData.fill(nodelist, prob);
 				prob.reCalc(fd, nodelist);

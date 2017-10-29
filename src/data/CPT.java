@@ -80,11 +80,8 @@ public class CPT {
 	 * @param lastCount, the data size that the last filtering remains 
 	 * @param map 
 	 */
-	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) throws DivZeroException {
+	private void arrange(int c) {
 		if (c == fathers.size() + 1) {
-			if (lastCount == 0)
-				throw new DivZeroException("Data Size is zero");
-			prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
 			rows = rows + 1;
 			return ;
 		}
@@ -93,9 +90,28 @@ public class CPT {
 		for (int i = 0; i < nowDomain.length; i++) {
 			String value = nowDomain[i];
 			domains[rows][c] = value;
+			arrange(c + 1);
+		}
+	}
+	
+	private void reArrange(int c, FileData fd, double lastCount, Map<String, Integer> map) throws DivZeroException {
+		if (c == fathers.size() + 1) {
+//			if (lastCount == 0)
+//				throw new DivZeroException("Data Size is zero");
+			if (lastCount == 0)
+				prob[rows] = 0;
+			else
+				prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
+			rows = rows + 1;
+			return ;
+		}
+		InferenceGraphNode nowNode = (c < fathers.size() ? fathers.get(c) : child);
+		String[] nowDomain = nowNode.get_values();
+		for (int i = 0; i < nowDomain.length; i++) {
+			String value = nowDomain[i];
 			int index = map.get(nowNode.get_name());
 			FileData newData = fd.filter(index, value);
-			arrange(c + 1, newData, fd.getDataSize(), map);
+			reArrange(c + 1, newData, fd.getDataSize(), map);
 		}
 	}
 	
@@ -115,21 +131,8 @@ public class CPT {
 		// the probability of each combination 
 		prob = new double[rows];
 		
-		// the index of each value in CPT table, the #N-1 are fathers, the N is child
-		int[] index = new int[fathers.size() + 1];
-		for (int i = 0; i < fathers.size(); i++) {
-			index[i] = map.get(fathers.get(i).get_name());
-		}
-		index[fathers.size()] = map.get(child.get_name());
-		// get the complete data, throw the data with ?
-		FileData cleanedData = fd.cleanAbsent(index);
-		
 		rows = 0;
-		try {
-			arrange(0, cleanedData, 0, map);
-		} catch (DivZeroException e) {
-			e.printStackTrace();
-		}
+		arrange(0);
 		
 		for (int i = 1; i < domains.length; i++) {
 			for (int j = 0; j < domains[i].length; j++) {
@@ -138,11 +141,39 @@ public class CPT {
 			}
 		}
 		
+		double initialValue = (1.0) / rows;
+		double[] tempProb = new double[rows];
 		for (int i = 0; i < prob.length; i++) {
-			prob[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+			prob[i] = initialValue;
+			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 		}
 		
-		child.set_function_values(prob);
+		child.set_function_values(tempProb);
+	}
+	
+	public void reCalcCPT(FileData fd, Map<String, Integer> map) {
+		// the index of each value in CPT table, the #N-1 are fathers, the N is child
+		int[] index = new int[fathers.size() + 1];
+		for (int i = 0; i < fathers.size(); i++) {
+			index[i] = map.get(fathers.get(i).get_name());
+		}
+		index[fathers.size()] = map.get(child.get_name());
+		rows = 0;
+		
+		FileData cleanedData = fd.cleanAbsent(index);
+		
+		try {
+			reArrange(0, cleanedData, 0.0, map);
+		} catch (DivZeroException e) {
+			e.printStackTrace();
+		}
+		
+		double[] tempProb = new double[rows];
+		for (int i = 0; i < prob.length; i++) {
+			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+		}
+		
+		child.set_function_values(tempProb);
 	}
 	
 	/**
@@ -178,7 +209,7 @@ public class CPT {
 			for (int j = 0; j < domains[i].length; j++) {
 				System.out.print(domains[i][j] + "#\t");
 			}
-			System.out.println(new BigDecimal(prob[i]).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue());
+			System.out.println(new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue());
 		}
 	}
 }

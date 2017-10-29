@@ -2,6 +2,7 @@ package preAlgo;
 import BayesianNetworks.*;
 import InferenceGraphs.*;
 import InterchangeFormat.*;
+import calc.ProbCalc;
 import data.FileData;
 import data.Row;
 import data.knn.KNNnode;
@@ -134,10 +135,11 @@ public class KNN implements BaseAlgo {
 	}
 	
 	@Override
-	public void checkData(FileData fd, Vector nodelist) {
+	public void checkData(FileData fd, Vector nodelist, ProbCalc pb) {
 		String[][] filedatas = fd.toStringArray();
 		try {
 			fd.resetData(useknn(filedatas));
+			pb.init(fd, nodelist);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (IFException e) {
