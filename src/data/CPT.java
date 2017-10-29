@@ -98,6 +98,11 @@ public class CPT {
 			arrange(c + 1, newData, fd.getDataSize(), map);
 		}
 		
+		for (int i = 0; i < prob.length; i++) {
+			prob[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+		}
+		
+		child.set_function_values(prob);
 	}
 	
 	/**
@@ -134,6 +139,7 @@ public class CPT {
 					domains[i][j] = domains[i - 1][j];
 			}
 		}
+		
 	}
 	
 	/**

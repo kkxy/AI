@@ -1,6 +1,3 @@
-// Bayesian Network in the Interchange Format
-// Produced by BayesianNetworks package in JavaBayes
-// Output created Sun Nov 02 17:58:15 GMT+00:00 1997
 // Bayesian network 
 network "Alarm" { //37 variables and 37 probability distributions
 }
@@ -153,113 +150,164 @@ variable  "Intubation" { //3 values
 	property "position = (843, 86)" ;
 }
 probability (  "Hypovolemia" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.203	// p(True | evidence )
+		0.797; 	// p(False | evidence );
 }
 probability (  "StrokeVolume"  "LVFailure"  "Hypovolemia" ) { //3 variable(s) and 12 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 1.0 0.0 0.0 0.498 0.485 0.017 0.946 0.043 0.012 0.05 0.901 0.048;
 }
 probability (  "LVFailure" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.05	// p(True | evidence )
+		0.95; 	// p(False | evidence );
 }
 probability (  "LVEDVolume"  "Hypovolemia"  "LVFailure" ) { //3 variable(s) and 12 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.938 0.044 0.018 0.979 0.01 0.011 0.005 0.081 0.913 0.047 0.9 0.052;
 }
 probability (  "PCWP"  "LVEDVolume" ) { //2 variable(s) and 9 values
-	table 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.947 0.045 0.008 0.037 0.952 0.01 0.012 0.038 0.949;
 }
 probability (  "CVP"  "LVEDVolume" ) { //2 variable(s) and 9 values
-	table 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.948 0.041 0.011 0.044 0.944 0.012 0.007 0.275 0.718;
 }
 probability (  "History"  "LVFailure" ) { //2 variable(s) and 4 values
-	table 0 0 0 0 ;
+	table 
+		 0.91 0.09 0.011 0.989;
 }
 probability (  "MinVolSet" ) { //1 variable(s) and 3 values
-	table 0 0 0 ;
+	table 
+		0.01	// p(Low | evidence )
+		0.98	// p(Normal | evidence )
+		0.01; 	// p(High | evidence );
 }
 probability (  "VentMach"  "MinVolSet" ) { //2 variable(s) and 12 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.01 0.942 0.029 0.019 0.01 0.01 0.971 0.009 0.0 0.0 0.009 0.991;
 }
 probability (  "Disconnect" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.05	// p(True | evidence )
+		0.95; 	// p(False | evidence );
 }
 probability (  "VentTube"  "VentMach"  "Disconnect" ) { //3 variable(s) and 32 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 1.0 0.0 0.0 0.0 0.919 0.03 0.04 0.01 0.667 0.167 0.167 0.0 0.021 0.963 0.005 0.011 0.973 0.006 0.015 0.006 0.01 0.011 0.969 0.009 1.0 0.0 0.0 0.0 0.005 0.005 0.011 0.978;
 }
 probability (  "KinkedTube" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.045	// p(True | evidence )
+		0.955; 	// p(False | evidence );
 }
 probability (  "Press"  "KinkedTube"  "Intubation"  "VentTube" ) { //4 variable(s) and 96 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.938 0.0 0.0 0.063 0.0 0.545 0.273 0.182 0.0 0.008 0.065 0.926 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.267 0.4 0.333 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.087 0.913 1.0 0.0 0.0 0.0 0.98 0.009 0.003 0.009 0.008 0.975 0.008 0.008 0.012 0.01 0.971 0.008 0.008 0.008 0.008 0.975 1.0 0.0 0.0 0.0 0.5 0.5 0.0 0.0 0.209 0.715 0.06 0.017 0.182 0.818 0.0 0.0 0.953 0.023 0.023 0.0 0.0 0.875 0.125 0.0 0.014 0.007 0.386 0.593 0.0 0.0 0.0 1.0;
 }
 probability (  "ErrLowOutput" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.051	// p(True | evidence )
+		0.949; 	// p(False | evidence );
 }
 probability (  "HRBP"  "ErrLowOutput"  "HR" ) { //3 variable(s) and 18 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.957 0.0 0.043 0.359 0.636 0.005 0.317 0.37 0.313 0.977 0.011 0.013 0.009 0.981 0.01 0.009 0.011 0.98;
 }
 probability (  "ErrCauter" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.098	// p(True | evidence )
+		0.902; 	// p(False | evidence );
 }
 probability (  "HREKG"  "HR"  "ErrCauter" ) { //3 variable(s) and 18 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.364 0.273 0.364 0.988 0.012 0.0 0.396 0.296 0.308 0.013 0.976 0.011 0.319 0.341 0.341 0.009 0.009 0.981;
 }
 probability (  "HRSat"  "HR"  "ErrCauter" ) { //3 variable(s) and 18 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.308 0.365 0.327 0.972 0.017 0.012 0.314 0.314 0.373 0.01 0.98 0.01 0.331 0.318 0.35 0.009 0.009 0.982;
 }
 probability (  "BP"  "CO"  "TPR" ) { //3 variable(s) and 27 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.985 0.01 0.006 0.971 0.011 0.018 0.299 0.606 0.095 0.984 0.008 0.008 0.093 0.846 0.06 0.049 0.385 0.566 0.905 0.083 0.012 0.038 0.199 0.762 0.009 0.09 0.901;
 }
 probability (  "CO"  "HR"  "StrokeVolume" ) { //3 variable(s) and 27 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.968 0.008 0.024 0.959 0.038 0.003 0.35 0.65 0.0 0.946 0.041 0.013 0.043 0.948 0.01 0.006 0.358 0.636 0.801 0.191 0.008 0.01 0.037 0.953 0.014 0.0 0.986;
 }
 probability (  "HR"  "Catechol" ) { //2 variable(s) and 6 values
-	table 0 0 0 0 0 0 ;
+	table 
+		 0.104 0.883 0.013 0.01 0.087 0.903;
 }
 probability (  "TPR"  "Anaphylaxis" ) { //2 variable(s) and 6 values
-	table 0 0 0 0 0 0 ;
+	table 
+		 0.989 0.0 0.011 0.307 0.394 0.299;
 }
 probability (  "Anaphylaxis" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.008	// p(True | evidence )
+		0.992; 	// p(False | evidence );
 }
 probability (  "InsuffAnesth" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.201	// p(True | evidence )
+		0.799; 	// p(False | evidence );
 }
 probability (  "PAP"  "PulmEmbolus" ) { //2 variable(s) and 6 values
-	table 0 0 0 0 0 0 ;
+	table 
+		 0.0 0.189 0.811 0.05 0.902 0.048;
 }
 probability (  "PulmEmbolus" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.011	// p(True | evidence )
+		0.989; 	// p(False | evidence );
 }
 probability (  "FiO2" ) { //1 variable(s) and 2 values
-	table 0 0 ;
+	table 
+		0.01	// p(Low | evidence )
+		0.99; 	// p(Normal | evidence );
 }
 probability (  "Catechol"  "InsuffAnesth"  "SaO2"  "TPR"  "ArtCO2" ) { //5 variable(s) and 108 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.125 0.875 0.0 1.0 0.015 0.985 0.0 1.0 0.0 1.0 0.014 0.986 0.0 1.0 0.037 0.963 0.017 0.983 0.0 1.0 0.011 0.989 0.0 1.0 0.0 1.0 0.007 0.993 0.0 1.0 0.0 1.0 0.062 0.938 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.05 0.95 0.097 0.903 0.0 1.0 0.037 0.963 0.0 1.0 0.0 1.0 0.125 0.875 0.039 0.961 0.002 0.998 0.05 0.95 0.044 0.956 0.006 0.994 0.048 0.952 0.047 0.953 0.012 0.988 0.136 0.864 0.114 0.886 0.115 0.885 0.987 0.013 0.947 0.053 0.307 0.693 0.923 0.077 0.956 0.044 0.254 0.746 0.934 0.066 0.945 0.055 0.267 0.733 0.982 0.018 0.991 0.009 1.0 0.0 0.966 0.034 1.0 0.0 0.438 0.563;
 }
 probability (  "SaO2"  "Shunt"  "PVSat" ) { //3 variable(s) and 18 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.978 0.008 0.014 0.008 0.98 0.012 0.017 0.007 0.976 0.973 0.015 0.012 0.989 0.004 0.006 0.771 0.229 0.0;
 }
 probability (  "Shunt"  "PulmEmbolus"  "Intubation" ) { //3 variable(s) and 12 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.089 0.911 0.0 1.0 0.0 1.0 0.951 0.049 0.959 0.041 0.043 0.957;
 }
 probability (  "PVSat"  "VentAlv"  "FiO2" ) { //3 variable(s) and 24 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 1.0 0.0 0.0 0.985 0.008 0.007 1.0 0.0 0.0 0.979 0.01 0.011 0.958 0.042 0.0 0.01 0.948 0.042 1.0 0.0 0.0 0.005 0.017 0.978;
 }
 probability (  "MinVol"  "VentLung"  "Intubation" ) { //3 variable(s) and 48 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.977 0.009 0.008 0.006 0.982 0.011 0.004 0.004 0.971 0.015 0.0 0.015 0.009 0.976 0.011 0.004 1.0 0.0 0.0 0.0 0.0 0.971 0.0 0.029 0.009 0.01 0.97 0.011 0.5 0.5 0.0 0.0 0.016 0.014 0.956 0.014 0.006 0.009 0.012 0.972 0.5 0.5 0.0 0.0 0.0 0.0 0.0 1.0;
 }
 probability (  "ExpCO2"  "ArtCO2"  "VentLung" ) { //3 variable(s) and 48 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 1.0 0.0 0.0 0.0 0.125 0.875 0.0 0.0 0.013 0.974 0.005 0.008 0.01 0.973 0.014 0.003 0.926 0.037 0.0 0.037 0.083 0.0 0.917 0.0 0.009 0.01 0.972 0.01 0.0 0.0 1.0 0.0 0.971 0.01 0.011 0.008 0.009 0.01 0.009 0.972 0.012 0.005 0.007 0.976 0.0 0.0 0.056 0.944;
 }
 probability (  "ArtCO2"  "VentAlv" ) { //2 variable(s) and 12 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.009 0.008 0.984 0.007 0.01 0.983 0.042 0.92 0.038 0.896 0.087 0.016;
 }
 probability (  "VentAlv"  "Intubation"  "VentLung" ) { //3 variable(s) and 48 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 0.974 0.007 0.014 0.005 0.011 0.964 0.009 0.016 0.01 0.008 0.973 0.01 0.006 0.006 0.016 0.972 0.964 0.011 0.011 0.014 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.941 0.015 0.029 0.015 0.0 1.0 0.0 0.0 0.002 0.958 0.033 0.007 0.0 0.769 0.154 0.077;
 }
 probability (  "VentLung"  "KinkedTube"  "VentTube"  "Intubation" ) { //4 variable(s) and 96 values
-	table 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+	table 
+		 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.917 0.083 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.413 0.576 0.0 0.011 1.0 0.0 0.0 0.0 0.64 0.36 0.0 0.0 0.333 0.667 0.0 0.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.977 0.005 0.008 0.01 1.0 0.0 0.0 0.0 0.977 0.0 0.0 0.023 0.008 0.958 0.013 0.021 1.0 0.0 0.0 0.0 0.0 0.941 0.059 0.0 0.009 0.011 0.971 0.009 0.974 0.004 0.004 0.017 0.009 0.014 0.962 0.014 0.009 0.021 0.009 0.962 1.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0;
 }
 probability (  "Intubation" ) { //1 variable(s) and 3 values
-	table 0 0 0 ;
+	table 
+		0.919	// p(Normal | evidence )
+		0.029	// p(Esophageal | evidence )
+		0.053; 	// p(OneSided | evidence );
 }

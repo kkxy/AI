@@ -1,6 +1,11 @@
 package main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +21,6 @@ import preAlgo.BaseAlgo;
 
 public class Main {
 	public static FileData fd;
-	public static ProbCalc bsp;
 	public static InferenceGraph G;
 	public static BaseAlgo algo;
 	public static Vector nodelist;
@@ -28,7 +32,6 @@ public class Main {
 	public static long init() {
 		long starttime = System.currentTimeMillis();
 		fd = new FileData();
-		bsp = new ProbCalc();
 		System.out.println("Init Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
@@ -83,21 +86,19 @@ public class Main {
 		long starttime = System.currentTimeMillis();
 		ProbCalc bp = new ProbCalc(fd, nodelist);
 		bp.showProbility();
-		// write into file
-//			Vector<Double> plist = bsp.getProb();
-//			double[] values = new double[plist.size()];
-//			for (int k = 0; k < plist.size(); k++)
-//				values[k] = new BigDecimal(plist.get(k)).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-//			node.get_Prob().set_values(values);
-//			node.get_Prob().print();
 		System.out.println("Calculate Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
+		try {
+			G.print_bayes_net(new PrintStream(new FileOutputStream(new File("data/alarm.bif"))));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return cost;
 	}
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < algorithm.length; i++) {
+		for (int i = 1; i < algorithm.length; i++) {
 			System.out.println("\nUsing Algorithm: " + algorithm[i]);
 			long total = 0;
 			total += init();
