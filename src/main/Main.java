@@ -79,7 +79,7 @@ public class Main {
 		return 0;
 	}
 	
-	public static long output() {
+	public static long calculate() {
 		long starttime = System.currentTimeMillis();
 		ProbCalc bp = new ProbCalc(fd, nodelist);
 		bp.showProbility();
@@ -103,7 +103,7 @@ public class Main {
 			total += init();
 			total += input();
 			total += pretreatment(fd, algorithm[i]);
-			total += output();
+			total += calculate();
 			System.out.println("Total Time Cost: " + (total / 1000.0) + "s" );
 		}
 	}

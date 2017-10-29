@@ -67,7 +67,7 @@ public class FileData {
 	}
 
 	/**
-	 * 解析字符串
+	 * parse the String
 	 * @param s
 	 * @return
 	 */
@@ -87,7 +87,7 @@ public class FileData {
 
 
 	/**
-	 * 读取数据
+	 * read data
 	 * @param filename
 	 */
 	public void readRowDatas(String filename) {
@@ -122,6 +122,10 @@ public class FileData {
 		dataSize = dataSize + row.getWeight();
 	}
 
+	/**
+	 * copy the data
+	 * @return
+	 */
 	public FileData getCopy() {
 		FileData res = new FileData();
 		res.setDataSize(dataSize);
@@ -134,6 +138,12 @@ public class FileData {
 		return res;
 	}
 	
+	/**
+	 * filter the data in the condition of var-th with the value
+	 * @param var
+	 * @param value
+	 * @return
+	 */
 	public FileData filter(int var, String value) {
 		FileData fd = new FileData();
 		for (Row row : rowDatas) {
@@ -144,6 +154,11 @@ public class FileData {
 		return fd;
 	}
 	
+	/**
+	 * get the all row data without the rows with "?"
+	 * @param index
+	 * @return
+	 */
 	public FileData cleanAbsent(int[] index) {
 		FileData res = new FileData();
 		for (Row row : rowDatas) {
@@ -154,11 +169,18 @@ public class FileData {
 		return res;
 	}
 	
+	/**
+	 * expand the table
+	 * @param nodelist
+	 * @param prob
+	 * @return
+	 */
 	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
 		System.out.println("Fill data");
 		FileData fd = new FileData();
 		for (Row row : rowDatas) {
 			int qPos = row.getIncomplete(); 
+			// if the row data is incomplete
 			if (qPos != -1) {
 				String[] domains = nodelist.get(qPos).get_values();
 				Vector<Row> rowlist = new Vector<>();
@@ -167,14 +189,14 @@ public class FileData {
 					String value = domains[i];
 					Row newRow = row.getCopy();
 					newRow.replaceIncompleteData(value);
-					double weight = prob.getExpectation(newRow.getDataset());
+					double weight = prob.getProbability(newRow.getDataset()); // calculate the probability of insert row 
 					sumWeight = sumWeight + weight;
-					newRow.setWeight(weight);
+					newRow.setWeight(weight); // set the temporary weight
 					rowlist.add(newRow);
 				}
 				for (int i = 0; i < rowlist.size(); i++) {
 					Row newRow = rowlist.get(i);
-					newRow.setWeight(newRow.getWeight() / sumWeight);
+					newRow.setWeight(newRow.getWeight() / sumWeight); // set the real weight
 					fd.addRowData(newRow);
 				}
 			}

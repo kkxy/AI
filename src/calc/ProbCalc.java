@@ -11,32 +11,35 @@ import data.CPT;
 
 public class ProbCalc {
 	
-	private Vector<CPT> pflist = new Vector<>();
+	private Vector<CPT> cptlist = new Vector<>();
 	private Map<String, Integer> map = new HashMap<>();
 	
 	public ProbCalc() {
-		pflist.clear();
+		cptlist.clear();
 		map.clear();
 	}
 	
 	public ProbCalc(FileData fd, Vector nodelist) {
-		pflist.clear();
+		cptlist.clear();
 		map.clear();
 		
 		initMap(nodelist);
-		initPFTable(fd, nodelist);
+		initCPT(fd, nodelist);
 	}
 	
 	public void reCalc(FileData fd, Vector nodelist) {
-		pflist.clear();
+		cptlist.clear();
 		map.clear();
 		
 		initMap(nodelist);
-		initPFTable(fd, nodelist);
+		initCPT(fd, nodelist);
 	}
 	
+	/**
+	 * init map
+	 * @param nodelist
+	 */
 	private void initMap(Vector nodelist) {
-		// 初始化Map
 		System.out.println("init Map");
 		for (int i = 0; i < nodelist.size(); i++) {
 			InferenceGraphNode node = (InferenceGraphNode)nodelist.get(i);
@@ -49,36 +52,45 @@ public class ProbCalc {
 		}
 	}
 	
-	private void initPFTable(FileData fd, Vector nodelist) {
-		// 初始化PF表
+	/**
+	 * initual the CPT 
+	 * @param fd
+	 * @param nodelist
+	 */
+	private void initCPT(FileData fd, Vector nodelist) {
 		System.out.println("init PF Table");
 		for (int i = 0; i < nodelist.size(); i++) {
 			InferenceGraphNode node = (InferenceGraphNode)nodelist.get(i);
-			CPT pf = new CPT(node);
-			pf.createProbTable(fd, map);
-			pflist.add(pf);
+			CPT cpt = new CPT(node);
+			cpt.createCPT(fd, map);
+			cptlist.add(cpt);
 		}
 	}
 	
-	public double getExpectation(Vector<String> values) {
+	/**
+	 * put the 37 values, and with chain theorem to calculate the probability
+	 * @param values
+	 * @return
+	 */
+	public double getProbability(Vector<String> values) {
 		double res = 1;
-		for (CPT pf : pflist) {
-			String[] tempValue = new String[pf.getFatherSize() + 1];
-			Vector<InferenceGraphNode> fathers = pf.getFathers();
+		for (CPT cpt : cptlist) {
+			String[] tempValue = new String[cpt.getFatherSize() + 1];
+			Vector<InferenceGraphNode> fathers = cpt.getFathers();
 			int pos = 0;
 			for (InferenceGraphNode ig : fathers) {
 				int index = map.get(ig.get_name());
 				tempValue[pos] = values.get(index);
 				pos = pos + 1;
 			}
-			tempValue[pos] = values.get(map.get(pf.getChild().get_name()));
-			res = res * pf.getProbility(tempValue);
+			tempValue[pos] = values.get(map.get(cpt.getChild().get_name()));
+			res = res * cpt.getProbility(tempValue);
 		}
 		return res;
 	}
 	
 	public void showProbility() {
-		for (CPT pf : pflist) {
+		for (CPT pf : cptlist) {
 			pf.show();
 			System.out.println();
 		}

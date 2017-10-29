@@ -72,6 +72,13 @@ public class CPT {
 		return fathers.size();
 	}
 	
+	/**
+	 * enumeration #c variable combination, filter the data, calculate the probability 
+	 * @param c, c-th variable
+	 * @param fd, the data remains to be filter
+	 * @param lastCount, the data size that the last filtering remains 
+	 * @param map 
+	 */
 	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) {
 		if (c == fathers.size() + 1) {
 			if (lastCount == 0)
@@ -93,19 +100,29 @@ public class CPT {
 		
 	}
 	
-	public void createProbTable(FileData fd, Map<String, Integer> map) {
+	/**
+	 * create the P(child | {father}) CPT
+	 * @param fd
+	 * @param map
+	 */
+	public void createCPT(FileData fd, Map<String, Integer> map) {
+		// calculate the total possibilities of child and his fathers
 		rows = child.get_number_values();
 		for (int i = 0; i < fathers.size(); i++) {
 			rows = rows * fathers.get(i).get_number_values();
 		}
+		// CPT tables 
 		domains = new String[rows][fathers.size() + 1];
+		// the probability of each combination 
 		prob = new double[rows];
 		
+		// the index of each value in CPT table, the #N-1 are fathers, the N is child
 		int[] index = new int[fathers.size() + 1];
 		for (int i = 0; i < fathers.size(); i++) {
 			index[i] = map.get(fathers.get(i).get_name());
 		}
 		index[fathers.size()] = map.get(child.get_name());
+		// get the complete data, throw the data with ?
 		FileData cleanedData = fd.cleanAbsent(index);
 		
 		rows = 0;
@@ -119,6 +136,11 @@ public class CPT {
 		}
 	}
 	
+	/**
+	 * in a CPT, input a series of values(ordered), return probability
+	 * @param values
+	 * @return
+	 */
 	public double getProbility(String[] values) {
 		double res = 0.0;
 		for (int i = 0; i < domains.length; i++) {

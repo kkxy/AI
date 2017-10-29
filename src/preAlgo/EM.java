@@ -20,7 +20,12 @@ public class EM implements BaseAlgo {
 		iteration = 0;
 		exception = -5.0;
 	}
-
+	
+	/**
+	 * judge if the nowexception - exception > EPS, whether the literation continue?
+	 * @param fd
+	 * @return
+	 */
 	private boolean isOptimized(FileData fd) {
 		iteration += 1;
 		double nowException = 0.0;
@@ -28,7 +33,7 @@ public class EM implements BaseAlgo {
 		for (int i = 0; i < rowdata.size(); i++) {
 			Row r = rowdata.get(i);
 			double w = r.getWeight();
-			double proba = prob.getExpectation(r.getDataset());
+			double proba = prob.getProbability(r.getDataset());
 			nowException += w * proba;
 		}
 		if (Math.abs(nowException - exception) > EPS) {
@@ -42,6 +47,9 @@ public class EM implements BaseAlgo {
 	}
 	
 	@Override
+	/**
+	 * core part of a algorithm
+	 */
 	public void checkData(FileData fd, Vector nodelist) {
 		// TODO Auto-generated method stub
 		// set initial values

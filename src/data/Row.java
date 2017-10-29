@@ -69,11 +69,22 @@ public class Row {
 	public int getSize() {
 		return dataset.size();
 	}
-
+	
+	/**
+	 * judge weather a row the value of loc column is value
+	 * @param loc
+	 * @param value
+	 * @return
+	 */
 	public boolean match(int loc, String value) {
 		return dataset.get(loc).equals(value);
 	}
 	
+	/**
+	 * judge if there are ? in these column
+	 * @param index
+	 * @return
+	 */
 	public boolean check(int[] index) {
 		for (int i = 0; i < index.length; i++) {
 			int j = index[i];
