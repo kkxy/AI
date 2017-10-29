@@ -4,6 +4,6 @@ import java.util.Vector;
 
 import data.FileData;
 
-public abstract class BaseAlgo {
-	public abstract void checkData(FileData fd, Vector nodelist);
+public interface BaseAlgo {
+	public void checkData(FileData fd, Vector nodelist);
 }

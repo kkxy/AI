@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class KNN extends BaseAlgo {
+public class KNN implements BaseAlgo {
 	private final int K = 9;
 	public Integer distance(String[] s1,String[] s2) {
 		int distence=0;

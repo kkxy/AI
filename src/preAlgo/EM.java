@@ -6,7 +6,7 @@ import calc.ProbCalc;
 import data.FileData;
 import data.Row;
 
-public class EM extends BaseAlgo {
+public class EM implements BaseAlgo {
 	
 	private final int MAXITER = 10000;
 	private final double EPS = 0.00001;
