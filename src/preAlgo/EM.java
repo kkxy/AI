@@ -61,7 +61,7 @@ public class EM implements BaseAlgo {
 			fd = fd.fill(nodelist, prob);
 			// start iteration
 			while (!isOptimized(fd, prob)) {
-				System.out.println("\nIteration: " + iteration);
+//				System.out.println("\nIteration: " + iteration);
 				fd = oldData.fill(nodelist, prob);
 				prob.reCalc(fd, nodelist);
 			}
