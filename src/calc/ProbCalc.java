@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import InferenceGraphs.InferenceGraphNode;
 import data.FileData;
+import exception.DivZeroException;
 import util.TestUtil;
 import data.CPT;
 

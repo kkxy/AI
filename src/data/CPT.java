@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import InferenceGraphs.InferenceGraphNode;
+import exception.DivZeroException;
 
 public class CPT {
 	
@@ -79,12 +80,11 @@ public class CPT {
 	 * @param lastCount, the data size that the last filtering remains 
 	 * @param map 
 	 */
-	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) {
+	private void arrange(int c, FileData fd, double lastCount, Map<String, Integer> map) throws DivZeroException {
 		if (c == fathers.size() + 1) {
 			if (lastCount == 0)
-				prob[rows] = 0;
-			else
-				prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
+				throw new DivZeroException("Data Size is zero");
+			prob[rows] = (1.0 * fd.getDataSize()) / lastCount;
 			rows = rows + 1;
 			return ;
 		}
@@ -131,7 +131,11 @@ public class CPT {
 		FileData cleanedData = fd.cleanAbsent(index);
 		
 		rows = 0;
-		arrange(0, cleanedData, 0, map);
+		try {
+			arrange(0, cleanedData, 0, map);
+		} catch (DivZeroException e) {
+			e.printStackTrace();
+		}
 		
 		for (int i = 1; i < domains.length; i++) {
 			for (int j = 0; j < domains[i].length; j++) {

@@ -1,10 +1,13 @@
 package preAlgo;
 
+import java.math.BigDecimal;
 import java.util.Vector;
 
 import calc.ProbCalc;
 import data.FileData;
 import data.Row;
+import exception.DivZeroException;
+import util.TestUtil;
 
 public class EM implements BaseAlgo {
 	
@@ -52,15 +55,20 @@ public class EM implements BaseAlgo {
 	 */
 	public void checkData(FileData fd, Vector nodelist) {
 		// TODO Auto-generated method stub
-		// set initial values
-		prob = new ProbCalc(fd, nodelist);
-		FileData oldData = fd.getCopy();
-		fd = fd.fill(nodelist, prob);
-		// start iteration
-		while (!isOptimized(fd)) {
-			System.out.println("\nIteration: " + iteration);
-			fd = oldData.fill(nodelist, prob);
-			prob.reCalc(fd, nodelist);
+		try {
+			// set initial values
+			prob = new ProbCalc(fd, nodelist);
+			FileData oldData = fd.getCopy();
+			fd = fd.fill(nodelist, prob);
+			// start iteration
+			while (!isOptimized(fd)) {
+				System.out.println("\nIteration: " + iteration);
+				fd = oldData.fill(nodelist, prob);
+				prob.reCalc(fd, nodelist);
+			}
+			System.out.println("Total Iteration: " + iteration);
+		} catch (DivZeroException e) {
+			e.printStackTrace();
 		}
 	}
 	

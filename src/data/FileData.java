@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import InferenceGraphs.InferenceGraphNode;
 import calc.ProbCalc;
+import exception.DivZeroException;
 
 public class FileData {
 
@@ -175,7 +176,7 @@ public class FileData {
 	 * @param prob
 	 * @return
 	 */
-	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) {
+	public FileData fill(Vector<InferenceGraphNode> nodelist, ProbCalc prob) throws DivZeroException {
 		System.out.println("Fill data");
 		FileData fd = new FileData();
 		for (Row row : rowDatas) {
@@ -194,6 +195,8 @@ public class FileData {
 					newRow.setWeight(weight); // set the temporary weight
 					rowlist.add(newRow);
 				}
+				if (sumWeight == 0)
+					throw new DivZeroException("Divide sumWeight zero");
 				for (int i = 0; i < rowlist.size(); i++) {
 					Row newRow = rowlist.get(i);
 					newRow.setWeight(newRow.getWeight() / sumWeight); // set the real weight
