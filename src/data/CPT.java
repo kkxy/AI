@@ -147,8 +147,17 @@ public class CPT {
 			prob[i] = initialValue;
 			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 		}
-		
-		child.set_function_values(tempProb);
+		double[] reset_pro = new double[rows];
+		int child_len = child.get_values().length;
+		int k = 0;
+		for (int i = 0; i < child_len; i++) {
+			for (int j = 0; j < rows; j++) {
+				if (j % child_len == i) {
+					reset_pro[k++] = tempProb[j];
+				}
+			}
+		}
+		child.set_function_values(reset_pro);
 	}
 	
 	public void reCalcCPT(FileData fd, Map<String, Integer> map) {
@@ -172,8 +181,17 @@ public class CPT {
 		for (int i = 0; i < prob.length; i++) {
 			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 		}
-		
-		child.set_function_values(tempProb);
+		double[] reset_pro = new double[rows];
+		int child_len = child.get_values().length;
+		int k = 0;
+		for (int i = 0; i < child_len; i++) {
+			for (int j = 0; j < rows; j++) {
+				if (j % child_len == i) {
+					reset_pro[k++] = tempProb[j];
+				}
+			}
+		}
+		child.set_function_values(reset_pro);
 	}
 	
 	/**

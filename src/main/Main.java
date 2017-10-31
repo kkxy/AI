@@ -88,7 +88,7 @@ public class Main {
 	public static long calculate() {
 		long starttime = System.currentTimeMillis();
 		prob.reCalc(fd, nodelist);
-//		prob.showProbility();
+		prob.showProbility();
 		System.out.println("Calculate Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
@@ -101,7 +101,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < algorithm.length; i++) {
+		for (int i = 0; i < 1; i++) {
 			System.out.println("\nUsing Algorithm: " + algorithm[i]);
 			long total = 0;
 			total += init();
@@ -109,7 +109,7 @@ public class Main {
 			total += pretreatment(fd, algorithm[i]);
 			total += calculate();
 			System.out.println("Total Time Cost: " + (total / 1000.0) + "s" );
-			TestUtil.compareInferenceGraph("./data/alarm.bif", "./data/former_alarm.bif");
+			TestUtil.compareInferenceGraph("./data/alarm.bif", "./data/resort_alarm.bif");
 		}
 	}
 }
