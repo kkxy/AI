@@ -87,6 +87,20 @@ public class ProbCalc {
 		return res;
 	}
 	
+	public double getPosProbability(int qPos, Vector<String> values) {
+		CPT cpt = cptlist.get(qPos);
+		String[] tempValue = new String[cpt.getFatherSize() + 1];
+		Vector<InferenceGraphNode> fathers = cpt.getFathers();
+		int pos = 0;
+		for (InferenceGraphNode ig : fathers) {
+			int index = map.get(ig.get_name());
+			tempValue[pos] = values.get(index);
+			pos = pos + 1;
+		}
+		tempValue[pos] = values.get(map.get(cpt.getChild().get_name()));
+		return cpt.getProbility(tempValue);
+	}
+	
 	public void showProbility() {
 		for (CPT pf : cptlist) {
 			pf.show();

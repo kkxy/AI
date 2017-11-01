@@ -145,7 +145,7 @@ public class CPT {
 		double[] tempProb = new double[rows];
 		for (int i = 0; i < prob.length; i++) {
 			prob[i] = initialValue;
-			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+			tempProb[i] = new BigDecimal(prob[i]).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		}
 		double[] reset_pro = new double[rows];
 		int child_len = child.get_values().length;
@@ -179,7 +179,7 @@ public class CPT {
 		
 		double[] tempProb = new double[rows];
 		for (int i = 0; i < prob.length; i++) {
-			tempProb[i] = new BigDecimal(prob[i]).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+			tempProb[i] = new BigDecimal(prob[i]).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		}
 		double[] reset_pro = new double[rows];
 		int child_len = child.get_values().length;

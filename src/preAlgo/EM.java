@@ -36,7 +36,7 @@ public class EM implements BaseAlgo {
 			Row r = rowdata.get(i);
 			double w = r.getWeight();
 			double proba = prob.getProbability(r.getDataset());
-			nowException += w * proba;
+			nowException += w * Math.log(proba);
 		}
 		if (Math.abs(nowException - exception) > EPS) {
 			if (iteration >= MAXITER) {

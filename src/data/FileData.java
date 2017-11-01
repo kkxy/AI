@@ -189,7 +189,7 @@ public class FileData {
 					String value = domains[i];
 					Row newRow = row.getCopy();
 					newRow.replaceIncompleteData(value);
-					double weight = prob.getProbability(newRow.getDataset()); // calculate the probability of insert row 
+					double weight = prob.getPosProbability(qPos, newRow.getDataset()); // calculate the probability of insert row 
 					sumWeight = sumWeight + weight;
 					newRow.setWeight(weight); // set the temporary weight
 					rowlist.add(newRow);
