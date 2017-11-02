@@ -82,12 +82,12 @@ public class Main {
 	public static long calculate() {
 		long starttime = System.currentTimeMillis();
 		prob.reCalc(fd, nodelist);
-		prob.showProbility();
+//		prob.showProbility();
 		System.out.println("Calculate Succeed");
 		long cost = System.currentTimeMillis() - starttime;
 		System.out.println("Time Cost:" + (cost / 1000.0) + "s");
 		try {
-			G.print_bayes_net(new PrintStream(new FileOutputStream(new File("data/alarm.bif"))));
+			G.print_bayes_net(new PrintStream(new FileOutputStream(new File("data/alarm_result.bif"))));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +103,7 @@ public class Main {
 			total += pretreatment(fd, algorithm[i]);
 			total += calculate();
 			System.out.println("Total Time Cost: " + (total / 1000.0) + "s" );
-			TestUtil.compareInferenceGraph("./data/alarm.bif", "./data/resort_alarm.bif");
+//			TestUtil.compareInferenceGraph("./data/alarm.bif", "./data/resort_alarm.bif");
 		}
 	}
 }
