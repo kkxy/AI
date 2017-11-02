@@ -95,7 +95,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		for (int i = 1; i < algorithm.length; i++) {
+		for (int i = 0; i < algorithm.length; i++) {
 			System.out.println("\nUsing Algorithm: " + algorithm[i]);
 			long total = 0;
 			total += init();
